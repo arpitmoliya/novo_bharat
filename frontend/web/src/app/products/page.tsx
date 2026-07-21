@@ -9,25 +9,24 @@ export function generateMetadata(): Promise<Metadata> {
   return buildMetadata("/products");
 }
 
-// Products — Figma "Product Page" design language on the fx- system. The
-// catalogue itself (search / filter / grid) is the client component below.
+// Products — Figma "Product Page": hero + filterable catalogue + banner CTA.
 export default function ProductsPage() {
   const { hero, cta } = productsPage;
 
   return (
-    <main className="bg-white overflow-x-clip">
+    <main className="overflow-x-clip bg-white">
       <FxPageHero
         eyebrow={hero.eyebrow}
         title={hero.title}
         body={hero.body}
-        bg="/figma/img/hero-bg.png"
+        bg="/figma/img/counter-bg.png"
       />
 
-      <section className="section">
+      <section className="container-fx px-(--gutter) py-10 md:py-16">
         <ProductsClient />
       </section>
 
-      <FxCta content={cta} />
+      <FxCta content={cta} variant="banner" withPhoto />
     </main>
   );
 }

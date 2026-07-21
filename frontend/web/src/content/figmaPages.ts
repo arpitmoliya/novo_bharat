@@ -78,15 +78,19 @@ export const aboutPage = {
 // ============================================================ PRODUCTS
 export const productsPage = {
   hero: {
-    eyebrow: "Our Products",
-    title: "Pharmaceutical API Portfolio",
-    body: "50+ bulk API molecules across Cardiovascular, Anti-Diabetic, CNS, and Antibiotic therapies — from GMP-certified sources, to global pharmacopoeia standards.",
+    eyebrow: "Home // Product",
+    title: "Our Pharmaceutical API Portfolio",
+    body: "50+ bulk API molecules · Cardiovascular · Anti-Diabetic · CNS · Antibiotics · GMP-Certified Sources · Global Pharmacopoeia Standards.",
   },
   cta: {
-    eyebrow: "Custom Requirement",
-    titleLines: ["Can't find your", "molecule?"],
-    body: "We source 200+ APIs on request. Send us your requirement — molecule, quantity, and target market — and we respond within 24 hours.",
-    primary: { label: "Download Product Catalogue", href: "/catalogue/NovoBharat.pdf", download: true },
+    eyebrow: "Start Business",
+    titleLines: ["Can't find your molecule?"],
+    body: "We source 200+ APIs on request. Send us your requirement — we respond within 24 hours.",
+    primary: {
+      label: "Download PDF Catalogue",
+      href: "/catalogue/NovoBharat.pdf",
+      download: true,
+    },
     secondary: { label: "Send Custom Requirement", href: "/contact" },
     image: "/figma/img/cta-photo.png",
   } satisfies FxCtaContent,

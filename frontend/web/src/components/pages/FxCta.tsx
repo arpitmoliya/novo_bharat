@@ -1,25 +1,32 @@
-// Shared inner-page CTA. `panel` = white card + photo (default, About/Products).
-// `banner` = dark photo strip with left headline + right copy/buttons (Why Us).
+// Shared inner-page CTA.
+// `panel`  — white card + photo (About / default)
+// `banner` — dark photo strip; optional center product photo (`withPhoto`)
 import type { FxCtaContent } from "@/content/figmaPages";
 import ArrowRightIcon from "@/components/icons/ArrowRightIcon";
 
 export default function FxCta({
   content,
   variant = "panel",
+  withPhoto = false,
 }: {
   content: FxCtaContent;
   variant?: "panel" | "banner";
+  withPhoto?: boolean;
 }) {
   const { eyebrow, titleLines, body, primary, secondary, image } = content;
 
   if (variant === "banner") {
+    const bg = withPhoto ? "/figma/img/counter-bg.png" : image;
+
     return (
       <section className="container-fx px-(--gutter) py-10 md:py-16">
         <div
           className="relative overflow-hidden rounded-[20px] bg-[image:linear-gradient(rgba(0,0,0,0.55),rgba(0,0,0,0.55)),var(--banner-cta-bg)] bg-cover bg-center px-5 py-10 sm:rounded-[30px] sm:px-10 sm:py-14 md:px-14 md:py-16"
-          style={{ ["--banner-cta-bg" as string]: `url("${image}")` }}
+          style={{ ["--banner-cta-bg" as string]: `url("${bg}")` }}
         >
-          <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-12">
+          <div
+            className={`grid grid-cols-1 items-center gap-8 ${withPhoto ? "lg:grid-cols-[1fr_minmax(160px,280px)_1fr] lg:gap-10" : "lg:grid-cols-2 lg:gap-12"}`}
+          >
             <div className="flex flex-col gap-3 sm:gap-4">
               <p className="m-0 font-body text-sm tracking-[0.08em] text-gold uppercase sm:text-base">
                 {eyebrow}
@@ -29,7 +36,18 @@ export default function FxCta({
               </h2>
             </div>
 
-            <div className="flex flex-col gap-5 lg:items-end">
+            {withPhoto && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={image}
+                alt=""
+                className="mx-auto h-40 w-auto object-contain sm:h-48 lg:h-56"
+              />
+            )}
+
+            <div
+              className={`flex flex-col gap-5 ${withPhoto ? "lg:items-end" : "lg:items-end"}`}
+            >
               <p className="m-0 max-w-md font-body text-base leading-relaxed tracking-tight text-white/90 lg:text-right">
                 {body}
               </p>

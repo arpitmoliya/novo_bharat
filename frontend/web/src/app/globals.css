@@ -373,7 +373,7 @@
     @apply border-blue text-blue;
   }
   .filter-chip.is-active {
-    @apply border-transparent bg-(image:--gradient-full) text-white;
+    @apply border-blue/30 bg-bluepill text-black;
   }
   .search-box {
     @apply relative flex items-center;
