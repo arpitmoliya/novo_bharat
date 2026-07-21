@@ -95,13 +95,14 @@ export const productsPage = {
 // ============================================================ WHY US
 export const whyUsPage = {
   hero: {
-    eyebrow: "Why Us",
+    eyebrow: "Home // Why Us",
     title: "Why Global Buyers Choose Novo Bharat",
-    body: "We don't just supply APIs — we deliver confidence, compliance, and consistency at every volume.",
+    body: "We don't just supply APIs — we deliver confidence, compliance, and consistency.",
   },
   reasons: {
     eyebrow: "Six Reasons",
-    title: "Built to Earn Importer Trust",
+    titleTop: "Built to Earn Importer Trust",
+    titleBottom: "for Global Pharma",
     cards: [
       {
         icon: "factory",
@@ -150,11 +151,11 @@ export const whyUsPage = {
   },
   cta: {
     eyebrow: "Start Business",
-    titleLines: ["Ready to work with a", "partner who gets", "pharma?"],
-    body: "Send your requirement today — pricing and availability within 24 hours, backed by full documentation support.",
+    titleLines: ["Ready to work with a partner who gets pharma?"],
+    body: "Send your requirement today — pricing and availability within 24 hours.",
     primary: { label: "Request a Quote", href: "/contact" },
-    secondary: { label: "Browse the Catalogue", href: "/products" },
-    image: "/figma/img/whyus-photo.png",
+    secondary: { label: "Browse the Catalogues", href: "/products" },
+    image: "/figma/img/counter-bg.png",
   } satisfies FxCtaContent,
 } as const;
 

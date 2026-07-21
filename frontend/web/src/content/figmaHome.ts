@@ -12,7 +12,11 @@
 
 import CheckMarkIcon from "@/components/icons/CheckMarkIcon";
 import DocumentAttachIcon from "@/components/icons/DocumentAttachIcon";
+import FacebookIcon from "@/components/icons/FacebookIcon";
 import GlobeIcon from "@/components/icons/GlobeIcon";
+import LinkedInIcon from "@/components/icons/LinkedInIcon";
+import TwitterIcon from "@/components/icons/TwitterIcon";
+import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
 
 export const fxHero = {
   bg: "/figma/img/hero-bg.png",
@@ -288,12 +292,14 @@ export const fxFooter = {
   address:
     "219, Spire 2, Near Shital Park Chowk,\n150 ft Ring Road, Rajkot - 360007",
   social: [
-    { icon: "/figma/icons/icon-linkedin.svg", label: "LinkedIn", href: "#" },
+    { Icon: LinkedInIcon, label: "LinkedIn", href: "#" },
     {
-      icon: "/figma/icons/icon-whatsapp.svg",
+      Icon: WhatsAppIcon,
       label: "WhatsApp",
       href: "https://wa.me/919898849899",
     },
+    { Icon: TwitterIcon, label: "Twitter", href: "#" },
+    { Icon: FacebookIcon, label: "Facebook", href: "#" },
   ],
   wordmark: "Novo Bharat",
 } as const;

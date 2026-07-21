@@ -231,7 +231,7 @@
     @apply text-gold;
   }
   .footer-wordmark {
-    @apply m-0 self-center bg-(image:--gradient-full) bg-clip-text font-heading text-[clamp(3rem,15vw,15.5rem)] leading-[1.2] font-bold tracking-[-0.02em] whitespace-nowrap text-transparent uppercase;
+    @apply m-0 block w-full;
   }
 
   /* ---------- inner-page sub-hero ---------- */
