@@ -1,0 +1,51 @@
+# Local development overlay — auto-merged by `docker compose up` on top of
+# docker-compose.yml. Gives hot reload by running dev servers against your
+# host source (bind-mounted), instead of the frozen production images.
+#
+# This file is IGNORED in production (Render uses render.yaml, and any prod
+# compose run should use:  docker compose -f docker-compose.yml up).
+#
+#   First run (or after changing package.json):  docker compose up --build
+#   Every run after that:                         docker compose up
+#   Then just edit files on the host — changes reload live.
+
+services:
+  # NOTE: No file-watch polling here. You're on OrbStack, which forwards
+  # filesystem events natively — polling is unnecessary and causes an infinite
+  # rebuild/reload loop (the watcher keeps seeing the dev server's own writes).
+  backend:
+    build:
+      target: dev
+    command: npm run start:dev
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./backend:/app          # live host source
+      - /app/node_modules       # keep the image's node_modules (don't shadow with host)
+      - /app/dist               # keep build output out of the bind mount
+
+  web:
+    build:
+      target: dev
+    command: npm run dev
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./frontend/web:/app
+      - /app/node_modules
+      - /app/.next              # keep Next build output out of the bind mount (stops reload loop)
+    ports:
+      - "3010:3000"             # open the site directly at http://localhost:3010 (3000 used by another project)
+
+  admin:
+    build:
+      target: dev
+    command: npm run dev
+    environment:
+      NODE_ENV: development
+    volumes:
+      - ./frontend/admin:/app
+      - /app/node_modules
+      - /app/.next
+    ports:
+      - "3011:3000"             # admin directly at http://localhost:3011 (3001 used by another project)

@@ -1,0 +1,81 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-novobharat_admin}
+      POSTGRES_USER: ${DB_USERNAME:-novobharat}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-novobharat}
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-novobharat} -d ${DB_DATABASE:-novobharat_admin}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  # Shared NestJS API — serves both the admin panel and (later) the public site.
+  backend:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PORT: 3003
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USERNAME: ${DB_USERNAME:-novobharat}
+      DB_PASSWORD: ${DB_PASSWORD:-novobharat}
+      DB_DATABASE: ${DB_DATABASE:-novobharat_admin}
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+      FRONTEND_ORIGIN: ${FRONTEND_ORIGIN:-http://localhost:3000}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-superadmin@mailinator.com}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-Password@123}
+    ports:
+      - "3003:3003"
+
+  # Admin panel (TailAdmin / Next.js). Internal only — reached via the proxy at /admin.
+  admin:
+    build:
+      context: ./frontend/admin
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3003/api}
+    restart: unless-stopped
+    depends_on:
+      - backend
+    expose:
+      - "3000"
+
+  # Public website (Next.js). Internal only — reached via the proxy at /.
+  web:
+    build:
+      context: ./frontend/web
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3003/api}
+    restart: unless-stopped
+    depends_on:
+      - backend
+    expose:
+      - "3000"
+
+  # Reverse proxy — single public entry point for both frontends.
+  #   http://localhost:8080/        -> web (public site)
+  #   http://localhost:8080/admin   -> admin panel
+  proxy:
+    image: nginx:alpine
+    restart: unless-stopped
+    depends_on:
+      - web
+      - admin
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "8080:80"
+
+volumes:
+  db_data:

@@ -1,0 +1,117 @@
+# Render Blueprint for the NovoBharat monorepo.
+# Deploy via: Render Dashboard > New > Blueprint > pick this repo.
+#
+# Creates one managed Postgres database and three Docker web services
+# (backend API, public site, admin panel). Render does NOT run
+# docker-compose.yml — each service below is its own container.
+#
+# IMPORTANT: onrender.com URLs are derived from the service `name`. The
+# values hardcoded below assume the names are available. After the first
+# deploy, confirm the backend's real URL and, if it differs, update
+# NEXT_PUBLIC_API_URL (web + admin) and FRONTEND_ORIGIN (backend), then
+# trigger a redeploy — the frontends bake the API URL in at BUILD time.
+
+databases:
+  - name: novobharat-db
+    databaseName: novobharat_admin
+    user: novobharat
+    plan: free
+    region: singapore
+    postgresMajorVersion: "16"
+
+services:
+  # ---------------------------------------------------------------------------
+  # Backend API (NestJS, Docker) — public, reached by the browser via /api
+  # ---------------------------------------------------------------------------
+  - type: web
+    name: novobharat-backend
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerContext: ./backend
+    dockerfilePath: ./backend/Dockerfile
+    healthCheckPath: /api/docs
+    autoDeploy: true
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: novobharat-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: novobharat-db
+          property: port
+      - key: DB_USERNAME
+        fromDatabase:
+          name: novobharat-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: novobharat-db
+          property: password
+      - key: DB_DATABASE
+        fromDatabase:
+          name: novobharat-db
+          property: database
+      # Internal (same-region) DB connection — no SSL required.
+      - key: DB_SSL
+        value: "false"
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      # CORS: the browser origins allowed to call the API (no trailing slash).
+      - key: FRONTEND_ORIGIN
+        value: https://novobharat-web.onrender.com,https://novobharat-admin.onrender.com
+      # First-boot super-admin account (seeded once, idempotently).
+      # NOTE: rotate this password for a real production launch.
+      - key: ADMIN_EMAIL
+        value: superadmin@mailinator.com
+      - key: ADMIN_PASSWORD
+        value: Password@123
+      # --- Contact-form email (optional). Leave unset to disable email;
+      #     enquiries are still saved to the DB. Fill these in the dashboard. ---
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_SECURE
+        value: "false"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: CONTACT_TO
+        sync: false
+
+  # ---------------------------------------------------------------------------
+  # Public website (Next.js standalone, Docker)
+  # ---------------------------------------------------------------------------
+  - type: web
+    name: novobharat-web
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerContext: ./frontend/web
+    dockerfilePath: ./frontend/web/Dockerfile
+    autoDeploy: true
+    envVars:
+      # Baked into the client bundle at BUILD time (Render passes service env
+      # vars as Docker build args). Must be the backend's PUBLIC URL + /api.
+      - key: NEXT_PUBLIC_API_URL
+        value: https://novobharat-backend.onrender.com/api
+
+  # ---------------------------------------------------------------------------
+  # Admin panel (Next.js standalone, Docker) — served under /admin (basePath)
+  # ---------------------------------------------------------------------------
+  - type: web
+    name: novobharat-admin
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerContext: ./frontend/admin
+    dockerfilePath: ./frontend/admin/Dockerfile
+    autoDeploy: true
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        value: https://novobharat-backend.onrender.com/api
