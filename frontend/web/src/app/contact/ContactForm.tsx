@@ -1,10 +1,14 @@
 "use client";
 
-// Inquiry form — client-side validation + inline success message (no redirect).
-// Styled with the fx- design system to match the Figma Contact page.
 import { useState } from "react";
 import { InquiryPayload, publicApi } from "@/lib/api";
-import ArrowRightIcon from "@/components/icons/ArrowRightIcon";
+import Button from "@/components/ui/Button";
+import FormField, {
+  formControlClass,
+  formControlErrorClass,
+} from "@/components/ui/FormField";
+import FormSuccess from "@/components/ui/FormSuccess";
+import { cn } from "@/lib/cn";
 
 const COUNTRIES = [
   "Australia",
@@ -79,7 +83,6 @@ const REQUIRED: (keyof Fields)[] = [
   "quantity",
 ];
 
-// Trim and drop blank optionals so they persist as null, not "".
 function toPayload(f: Fields): InquiryPayload {
   const opt = (v: string) => {
     const t = v.trim();
@@ -150,10 +153,10 @@ export default function ContactForm() {
   if (submitted) {
     return (
       <div className={formClasses}>
-        <div className="form-success">
+        <FormSuccess>
           Thank you! We will respond within 24 hours with pricing and
           availability.
-        </div>
+        </FormSuccess>
         <p className="col-span-full m-0 text-gray">
           For an immediate response you can also email{" "}
           <a href="mailto:info@novobharat.com">info@novobharat.com</a> or
@@ -163,43 +166,48 @@ export default function ContactForm() {
     );
   }
 
-  const field = (
-    key: keyof Fields,
-    label: string,
-    opts: {
-      type?: string;
-      required?: boolean;
-      full?: boolean;
-      placeholder?: string;
-    } = {},
-  ) => (
-    <div
-      className={`field${opts.full ? " field-full" : ""}${errors[key] ? " has-error" : ""}`}
-    >
-      <label htmlFor={key}>
-        {label} {opts.required && <span className="req">*</span>}
-      </label>
-      <input
-        id={key}
-        type={opts.type ?? "text"}
-        value={fields[key]}
-        onChange={set(key)}
-        placeholder={opts.placeholder}
-      />
-      {errors[key] && <span className="field-error">{errors[key]}</span>}
-    </div>
-  );
+  const inputClass = (key: keyof Fields) =>
+    cn(formControlClass, errors[key] && formControlErrorClass);
 
   return (
     <form className={formClasses} onSubmit={onSubmit} noValidate>
-      {field("fullName", "Full Name", { required: true })}
-      {field("company", "Company Name", { required: true })}
+      <FormField
+        id="fullName"
+        label="Full Name"
+        required
+        error={errors.fullName}
+      >
+        <input
+          id="fullName"
+          value={fields.fullName}
+          onChange={set("fullName")}
+          placeholder="Enter your full name"
+          className={inputClass("fullName")}
+        />
+      </FormField>
 
-      <div className={`field${errors.country ? " has-error" : ""}`}>
-        <label htmlFor="country">
-          Country <span className="req">*</span>
-        </label>
-        <select id="country" value={fields.country} onChange={set("country")}>
+      <FormField
+        id="company"
+        label="Company Name"
+        required
+        error={errors.company}
+      >
+        <input
+          id="company"
+          value={fields.company}
+          onChange={set("company")}
+          placeholder="Enter your company name"
+          className={inputClass("company")}
+        />
+      </FormField>
+
+      <FormField id="country" label="Country" required error={errors.country}>
+        <select
+          id="country"
+          value={fields.country}
+          onChange={set("country")}
+          className={inputClass("country")}
+        >
           <option value="">Select country…</option>
           {COUNTRIES.map((c) => (
             <option key={c} value={c}>
@@ -207,46 +215,101 @@ export default function ContactForm() {
             </option>
           ))}
         </select>
-        {errors.country && (
-          <span className="field-error">{errors.country}</span>
-        )}
-      </div>
+      </FormField>
 
-      {field("email", "Email Address", { type: "email", required: true })}
-      {field("phone", "Phone / WhatsApp", {
-        type: "tel",
-        placeholder: "+country code",
-      })}
-      {field("molecule", "API / Molecule Name", { required: true })}
-      {field("quantity", "Quantity Required", {
-        required: true,
-        placeholder: "e.g. 50 kg",
-      })}
-      {field("market", "Intended Market / Country of Use")}
+      <FormField id="email" label="Email Address" required error={errors.email}>
+        <input
+          id="email"
+          type="email"
+          value={fields.email}
+          onChange={set("email")}
+          placeholder="Enter your email address"
+          className={inputClass("email")}
+        />
+      </FormField>
 
-      <div className="field field-full">
-        <label htmlFor="notes">Additional Requirements</label>
+      <FormField id="phone" label="Phone / WhatsApp">
+        <input
+          id="phone"
+          type="tel"
+          value={fields.phone}
+          onChange={set("phone")}
+          placeholder="+country code"
+          className={formControlClass}
+        />
+      </FormField>
+
+      <FormField
+        id="molecule"
+        label="API / Molecule Name"
+        required
+        error={errors.molecule}
+      >
+        <input
+          id="molecule"
+          value={fields.molecule}
+          onChange={set("molecule")}
+          placeholder="Enter your API / Molecule name"
+          className={inputClass("molecule")}
+        />
+      </FormField>
+
+      <FormField
+        id="quantity"
+        label="Quantity Required"
+        required
+        error={errors.quantity}
+      >
+        <input
+          id="quantity"
+          value={fields.quantity}
+          onChange={set("quantity")}
+          placeholder="e.g. 50 kg"
+          className={inputClass("quantity")}
+        />
+      </FormField>
+
+      <FormField id="market" label="Intended Market / Country of Use">
+        <input
+          id="market"
+          value={fields.market}
+          onChange={set("market")}
+          placeholder="Enter your intended market / country of use"
+          className={formControlClass}
+        />
+      </FormField>
+
+      <FormField id="notes" label="Additional Requirements" fullWidth>
         <textarea
           id="notes"
           rows={4}
           value={fields.notes}
           onChange={set("notes")}
+          className={cn(formControlClass, "min-h-27.5 resize-y")}
+          placeholder="Enter any additional requirements"
         />
-      </div>
+      </FormField>
 
-      {submitError && (
-        <div className="field-error col-span-full" role="alert">
+      {submitError ? (
+        <div
+          className="col-span-full font-body text-[0.85rem] text-[#d92d20]"
+          role="alert"
+        >
           Something went wrong sending your requirement. Please try again, or
           email <a href="mailto:info@novobharat.com">info@novobharat.com</a>{" "}
           directly.
         </div>
-      )}
+      ) : null}
 
-      <div className="form-submit">
-        <button type="submit" className="btn btn-solid" disabled={submitting}>
+      <div className="col-span-full flex justify-center">
+        <Button
+          type="submit"
+          variant="solid"
+          showArrow={!submitting}
+          disabled={submitting}
+        >
           {submitting ? "Sending…" : "Send My Requirement"}
-          {!submitting && <ArrowRightIcon />}
-        </button>
+        </Button>
       </div>
     </form>
   );

@@ -5,7 +5,11 @@
 // Page: bordered filter panel, chip row, 3-col cards, Load More.
 import { useEffect, useMemo, useState } from "react";
 import { Category, Product, publicApi } from "@/lib/api";
-import ArrowRightIcon from "@/components/icons/ArrowRightIcon";
+import ButtonLink from "@/components/ui/ButtonLink";
+import FilterChip from "@/components/ui/FilterChip";
+import SearchInput from "@/components/ui/SearchInput";
+import SelectInput from "@/components/ui/SelectInput";
+import Tag from "@/components/ui/Tag";
 
 type Availability = "all" | "available" | "on-request";
 
@@ -93,23 +97,16 @@ export default function ProductsClient() {
   return (
     <div className="flex flex-col gap-8">
       {/* Filter panel — light blue outline, search + availability, then chips */}
-      <div className="flex flex-col gap-4 rounded-[20px] border border-blue/25 bg-white p-4 sm:gap-5 sm:p-5 md:p-6">
+      <div className="flex flex-col gap-4 rounded-[20px] border-8 border-blue/25 bg-white p-4 sm:gap-5 sm:p-5 md:p-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <div className="search-box min-w-0 flex-1">
-            <svg viewBox="0 0 24 24" strokeWidth={1.8} aria-hidden="true">
-              <circle cx="11" cy="11" r="7" />
-              <path d="m20 20-3.2-3.2" strokeLinecap="round" />
-            </svg>
-            <input
-              type="text"
-              placeholder="Search molecule name or CAS number..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              aria-label="Search products"
-            />
-          </div>
-          <select
-            className="select-box w-full shrink-0 sm:w-auto sm:min-w-45"
+          <SearchInput
+            placeholder="Search molecule name or CAS number..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            aria-label="Search products"
+          />
+          <SelectInput
+            className="w-full shrink-0 sm:w-auto sm:min-w-45"
             value={availability}
             onChange={(e) => setAvailability(e.target.value as Availability)}
             aria-label="Filter by availability"
@@ -117,31 +114,32 @@ export default function ProductsClient() {
             <option value="all">All Availability</option>
             <option value="available">Available</option>
             <option value="on-request">On Request</option>
-          </select>
+          </SelectInput>
         </div>
 
         <div className="flex flex-wrap items-center gap-2 sm:gap-2.5">
-          <button
-            type="button"
-            className={`filter-chip${activeCategory === "all" ? " is-active" : ""}`}
+          <FilterChip
+            active={activeCategory === "all"}
             onClick={() => setActiveCategory("all")}
           >
             All Categories
-          </button>
+          </FilterChip>
           {categories.map((c) => (
-            <button
-              type="button"
+            <FilterChip
               key={c.id}
-              className={`filter-chip${activeCategory === c.id ? " is-active" : ""}`}
+              active={activeCategory === c.id}
               onClick={() => setActiveCategory(c.id)}
             >
               {c.name}
-            </button>
+            </FilterChip>
           ))}
         </div>
       </div>
 
-      <div className="result-count" aria-live="polite">
+      <div
+        className="font-body text-[clamp(0.9rem,1vw,1.125rem)] text-gray"
+        aria-live="polite"
+      >
         {loading
           ? "Loading catalogue…"
           : error
@@ -164,19 +162,17 @@ export default function ProductsClient() {
                       {p.name}
                     </h3>
                     <div className="flex flex-wrap gap-2">
-                      {p.category?.name && (
-                        <span className="tag tag-gold">{p.category.name}</span>
-                      )}
-                      {p.gmpStatus && (
-                        <span className="tag tag-blue">{p.gmpStatus}</span>
-                      )}
-                      {p.regulatoryStatus && (
-                        <span
-                          className={`tag ${kind === "on-request" ? "tag-gold" : "tag-green"}`}
-                        >
+                      {p.category?.name ? (
+                        <Tag color="gold">{p.category.name}</Tag>
+                      ) : null}
+                      {p.gmpStatus ? (
+                        <Tag color="blue">{p.gmpStatus}</Tag>
+                      ) : null}
+                      {p.regulatoryStatus ? (
+                        <Tag color={kind === "on-request" ? "gold" : "green"}>
                           {p.regulatoryStatus}
-                        </span>
-                      )}
+                        </Tag>
+                      ) : null}
                     </div>
                   </div>
 
@@ -203,10 +199,14 @@ export default function ProductsClient() {
                         </div>
                       )}
                     </div>
-                    <a href="/contact" className="btn btn-ghost self-start">
+                    <ButtonLink
+                      href="/contact"
+                      variant="ghost"
+                      showArrow
+                      className="self-start"
+                    >
                       Request Quote
-                      <ArrowRightIcon />
-                    </a>
+                    </ButtonLink>
                   </div>
                 </article>
               );
@@ -218,13 +218,16 @@ export default function ProductsClient() {
               <button
                 type="button"
                 onClick={() => setVisibleCount((n) => n + PAGE_SIZE)}
-                className="inline-flex items-center gap-2.5 font-body text-base font-medium tracking-tight text-blue transition-opacity hover:opacity-80"
+                className="inline-flex items-center cursor-pointer gap-2.5 font-body text-base font-medium tracking-tight text-blue transition-opacity hover:opacity-80"
               >
-                <span
-                  className="inline-block size-5 animate-spin rounded-full border-2 border-blue/30 border-t-blue"
-                  aria-hidden="true"
-                />
-                Load More
+                {loading ? (
+                  <span
+                    className="inline-block size-5 animate-spin rounded-full border-2 border-blue/30 border-t-blue"
+                    aria-hidden="true"
+                  />
+                ) : (
+                  <span>Load More</span>
+                )}
               </button>
             </div>
           )}
@@ -232,7 +235,7 @@ export default function ProductsClient() {
       )}
 
       {!loading && !error && filtered.length === 0 && (
-        <div className="empty-state">
+        <div className="rounded-[20px] bg-f6 px-6 py-15 text-center font-body text-[clamp(1rem,1.1vw,1.25rem)] text-gray">
           No molecules match your filters. Try a different search or category.
         </div>
       )}

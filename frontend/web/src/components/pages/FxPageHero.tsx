@@ -1,7 +1,8 @@
 // Compact inner-page hero for the Figma rebuild — dark photo banner with a
 // gradient eyebrow, large display heading, lead copy, optional CTAs, and the
 // white rounded notch that bridges into the page (matches the Home hero style).
-import ArrowRightIcon from "@/components/icons/ArrowRightIcon";
+
+import ButtonLink from "../ui/ButtonLink";
 
 type Cta = { label: string; href: string };
 
@@ -26,8 +27,12 @@ export default function FxPageHero({
       style={{ ["--subhero-bg" as string]: `url("${bg}")` }}
     >
       <div className="mx-auto flex w-[min(1720px,89.58vw)] flex-col gap-[clamp(16px,1.6vw,28px)]">
-        <p className="subhero-eyebrow">{eyebrow}</p>
-        <h1 className="subhero-title">{title}</h1>
+        <p className="m-0 w-max bg-(image:--gradient-full) bg-clip-text font-body text-[clamp(0.85rem,1.05vw,1.25rem)] font-medium tracking-[0.08em] text-transparent uppercase">
+          {eyebrow}
+        </p>
+        <h1 className="m-0 max-w-[20ch] font-heading text-[clamp(2rem,3.85vw,4.625rem)] leading-[1.15] font-semibold tracking-[-0.02em] text-white">
+          {title}
+        </h1>
         {body && (
           <p className="lead max-w-none text-[clamp(0.95rem,1.0417vw,1.25rem)] text-white/90 sm:max-w-[min(760px,42vw)]">
             {body}
@@ -36,22 +41,24 @@ export default function FxPageHero({
         {(primary || secondary) && (
           <div className="mt-1.5 flex flex-wrap items-center gap-4">
             {primary && (
-              <a
+              <ButtonLink
                 href={primary.href}
-                className="btn btn-solid w-full justify-between sm:w-auto sm:justify-start"
+                variant="solid"
+                showArrow
+                responsiveFullWidth
               >
                 {primary.label}
-                <ArrowRightIcon />
-              </a>
+              </ButtonLink>
             )}
             {secondary && (
-              <a
+              <ButtonLink
                 href={secondary.href}
-                className="btn btn-ghost-light w-full justify-between sm:w-auto sm:justify-start"
+                variant="ghost-light"
+                showArrow
+                responsiveFullWidth
               >
                 {secondary.label}
-                <ArrowRightIcon />
-              </a>
+              </ButtonLink>
             )}
           </div>
         )}

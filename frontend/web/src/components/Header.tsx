@@ -1,23 +1,23 @@
 "use client";
 
-// Figma "Home" header (#30:8) — a floating glass bar over the hero that docks to
-// a solid white bar once the user scrolls, so nav text stays readable over the
-// light sections below. The logo swaps white→navy to match. Mobile: slide-in panel.
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { fxBrand, fxNav } from "@/content/figmaHome";
-import ArrowRightIcon from "@/components/icons/ArrowRightIcon";
+import ButtonLink from "@/components/ui/ButtonLink";
+import { cn } from "@/lib/cn";
 
 function isActive(pathname: string, href: string) {
   return href === "/" ? pathname === "/" : pathname.startsWith(href);
 }
+
+const navLinkClass =
+  "relative font-body text-[clamp(1rem,1.05vw,1.25rem)] font-medium tracking-[-0.02em] text-[rgba(255,255,255,0.92)] transition-colors duration-[180ms] hover:text-white";
 
 export default function Header() {
   const pathname = usePathname() ?? "/";
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Dock the header (solid white) after a small scroll past the hero top.
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     onScroll();
@@ -25,7 +25,6 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Lock body scroll while the mobile panel is open; close on route change.
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
@@ -39,9 +38,10 @@ export default function Header() {
 
   return (
     <header
-      className={`container-fx fixed top-5 right-5 left-5 z-1000 flex max-w-[1880px] items-center justify-between gap-6 rounded-[20px] border border-white/20 bg-ink p-3 pl-5 transition-shadow lg:p-[14px] lg:pl-8 ${
-        scrolled ? "shadow-[0_10px_30px_rgba(0,0,0,0.35)]" : ""
-      }`}
+      className={cn(
+        "fixed top-5 right-5 left-5 z-1000 mx-auto flex max-w-[1880px] items-center justify-between gap-6 rounded-[20px] border border-white/20 bg-ink p-3 pl-5 transition-shadow lg:p-[14px] lg:pl-8",
+        scrolled && "shadow-[0_10px_30px_rgba(0,0,0,0.35)]",
+      )}
     >
       <a
         href="/"
@@ -64,37 +64,59 @@ export default function Header() {
           <a
             key={link.href}
             href={link.href}
-            className={`header-link${isActive(pathname, link.href) ? " is-active" : ""}`}
+            className={cn(
+              navLinkClass,
+              isActive(pathname, link.href) &&
+                "bg-(image:--gradient-full) bg-clip-text text-transparent",
+            )}
           >
             {link.label}
           </a>
         ))}
       </nav>
 
-      <a
-        href="/contact"
-        className="btn btn-solid hidden shrink-0 lg:inline-flex"
-      >
-        Contact Us
-        <ArrowRightIcon />
-      </a>
+      <div className="hidden shrink-0 lg:block">
+        <ButtonLink href="/contact" variant="solid" showArrow>
+          Contact Us
+        </ButtonLink>
+      </div>
 
       <button
         type="button"
-        className={`hamburger lg:hidden ${open ? "is-open" : ""}`}
+        className="flex h-11.5 w-11.5 cursor-pointer flex-col justify-center gap-1.25 rounded-[10px] border-0 bg-transparent lg:hidden"
         aria-label="Toggle menu"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
       >
-        <span />
-        <span />
-        <span />
+        <span
+          className={cn(
+            "mx-auto block h-0.5 w-6 bg-white transition-all duration-250",
+            open && "translate-y-1.75 rotate-45",
+          )}
+        />
+        <span
+          className={cn(
+            "mx-auto block h-0.5 w-6 bg-white transition-all duration-250",
+            open && "opacity-0",
+          )}
+        />
+        <span
+          className={cn(
+            "mx-auto block h-0.5 w-6 bg-white transition-all duration-250",
+            open && "-translate-y-1.75 -rotate-45",
+          )}
+        />
       </button>
 
-      <div className={`mobile-menu${open ? " is-open" : ""}`}>
+      <div
+        className={cn(
+          "fixed inset-0 z-1100 flex flex-col bg-[#0a0f1a] px-8 pt-24 pb-10 transition-transform duration-[320ms] ease-[cubic-bezier(0.22,1,0.36,1)] lg:hidden",
+          open ? "translate-x-0" : "translate-x-full",
+        )}
+      >
         <button
           type="button"
-          className="mobile-close"
+          className="absolute top-6.5 right-6.5 h-11 w-11 cursor-pointer border-0 bg-transparent text-[32px] leading-none text-white"
           aria-label="Close menu"
           onClick={() => setOpen(false)}
         >
@@ -104,15 +126,17 @@ export default function Header() {
           <a
             key={link.href}
             href={link.href}
-            className={isActive(pathname, link.href) ? "is-active" : ""}
+            className={cn(
+              "border-b border-b-[rgba(255,255,255,0.12)] py-4 font-heading text-[22px] text-white",
+              isActive(pathname, link.href) && "text-gold",
+            )}
           >
             {link.label}
           </a>
         ))}
-        <a href="/contact" className="btn btn-solid">
+        <ButtonLink href="/contact" variant="solid" showArrow className="mt-7">
           Contact Us
-          <ArrowRightIcon />
-        </a>
+        </ButtonLink>
       </div>
     </header>
   );

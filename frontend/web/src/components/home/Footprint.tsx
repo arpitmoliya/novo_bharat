@@ -1,18 +1,18 @@
-// Figma "Global Footprint" (#30:254) — two-line heading with right-aligned
-// eyebrow above a wrapping grid of country cards (flag frame + blue label pill).
 import { fxFootprint } from "@/content/figmaHome";
+import Container from "@/components/ui/Container";
+import { Eyebrow, Heading } from "@/components/ui/Typography";
 import Image from "next/image";
 
 export default function Footprint() {
   return (
-    <section className="container-fx flex flex-col gap-[clamp(40px,5vw,64px)] bg-white py-20 px-(--gutter)">
+    <Container className="flex flex-col gap-[clamp(40px,5vw,64px)] bg-white py-20 px-(--gutter)">
       <div className="flex flex-col items-center gap-4 text-center">
-        <p className="eyebrow">{fxFootprint.eyebrow}</p>
-        <h2 className="heading">
+        <Eyebrow>{fxFootprint.eyebrow}</Eyebrow>
+        <Heading>
           {fxFootprint.titleTop}
           <br />
           {fxFootprint.titleBottom}
-        </h2>
+        </Heading>
       </div>
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-[repeat(auto-fill,minmax(280px,1fr))] sm:gap-7.5">
@@ -40,6 +40,6 @@ export default function Footprint() {
           </div>
         ))}
       </div>
-    </section>
+    </Container>
   );
 }

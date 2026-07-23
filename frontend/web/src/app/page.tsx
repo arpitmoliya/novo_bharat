@@ -8,6 +8,7 @@ import Hero from "@/components/home/Hero";
 import Products from "@/components/home/Products";
 import WhyUs from "@/components/home/WhyUs";
 import { buildMetadata } from "@/lib/seo";
+import { fxCompliance } from "@/content/figmaHome";
 
 export function generateMetadata(): Promise<Metadata> {
   return buildMetadata("/");
@@ -24,7 +25,11 @@ export default function HomePage() {
       <Products />
       <WhyUs />
       <Footprint />
-      <Compliance />
+      <Compliance
+        eyebrow={fxCompliance.eyebrow}
+        title={fxCompliance.title}
+        isBg
+      />
       <Cta />
     </main>
   );
