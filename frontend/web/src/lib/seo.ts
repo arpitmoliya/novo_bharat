@@ -70,7 +70,7 @@ export async function buildMetadata(path: string): Promise<Metadata> {
     // Backend unreachable — fall back to a sane minimum so the page still renders.
     return {
       title: "Novo Bharat",
-      icons: { icon: "/imgs/logo/favicon.png" },
+      icons: { icon: "/favicon.png" },
     };
   }
 
@@ -84,7 +84,7 @@ export async function buildMetadata(path: string): Promise<Metadata> {
     title: seo.title,
     description: seo.description ?? undefined,
     keywords: seo.keywords ?? undefined,
-    icons: { icon: "/imgs/logo/favicon.png" },
+    icons: { icon: "/favicon.png" },
     alternates: seo.canonicalUrl ? { canonical: seo.canonicalUrl } : undefined,
     robots: { index: seo.index, follow: seo.follow },
     openGraph: {

@@ -27,7 +27,9 @@ export default function SeoGlobalPage() {
     try {
       setForm(await seoApi.getGlobal());
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Failed to load SEO settings");
+      setError(
+        err instanceof ApiError ? err.message : "Failed to load SEO settings",
+      );
     } finally {
       setLoading(false);
     }
@@ -55,7 +57,9 @@ export default function SeoGlobalPage() {
       setForm(updated);
       setSuccess(true);
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : "Failed to save SEO settings");
+      setError(
+        err instanceof ApiError ? err.message : "Failed to save SEO settings",
+      );
     } finally {
       setSaving(false);
     }
@@ -161,7 +165,9 @@ export default function SeoGlobalPage() {
                   className={selectClass}
                 >
                   <option value="summary">summary</option>
-                  <option value="summary_large_image">summary_large_image</option>
+                  <option value="summary_large_image">
+                    summary_large_image
+                  </option>
                 </select>
               </div>
               <div className="flex items-center gap-6 sm:col-span-2">
@@ -169,7 +175,9 @@ export default function SeoGlobalPage() {
                   <input
                     type="checkbox"
                     checked={form.robotsDefaultIndex ?? true}
-                    onChange={(e) => set("robotsDefaultIndex", e.target.checked)}
+                    onChange={(e) =>
+                      set("robotsDefaultIndex", e.target.checked)
+                    }
                     className="w-4 h-4 rounded border-gray-300 text-brand-500 focus:ring-brand-500"
                   />
                   <span className="text-sm text-gray-700 dark:text-gray-300">
@@ -180,7 +188,9 @@ export default function SeoGlobalPage() {
                   <input
                     type="checkbox"
                     checked={form.robotsDefaultFollow ?? true}
-                    onChange={(e) => set("robotsDefaultFollow", e.target.checked)}
+                    onChange={(e) =>
+                      set("robotsDefaultFollow", e.target.checked)
+                    }
                     className="w-4 h-4 rounded border-gray-300 text-brand-500 focus:ring-brand-500"
                   />
                   <span className="text-sm text-gray-700 dark:text-gray-300">
@@ -192,7 +202,9 @@ export default function SeoGlobalPage() {
                 <Label>Google Site Verification</Label>
                 <Input
                   defaultValue={form.googleSiteVerification ?? ""}
-                  onChange={(e) => set("googleSiteVerification", e.target.value)}
+                  onChange={(e) =>
+                    set("googleSiteVerification", e.target.value)
+                  }
                 />
               </div>
               <div>

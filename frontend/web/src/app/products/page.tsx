@@ -19,14 +19,14 @@ export default function ProductsPage() {
         eyebrow={hero.eyebrow}
         title={hero.title}
         body={hero.body}
-        bg="/figma/img/counter-bg.png"
+        bg="/figma/img/product-bg.png"
       />
 
       <Container className="px-(--gutter) py-10 md:py-16">
         <ProductsClient />
       </Container>
 
-      <PageCta content={cta} variant="banner" withPhoto />
+      <PageCta content={cta} />
     </main>
   );
 }

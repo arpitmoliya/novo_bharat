@@ -21,7 +21,7 @@ export default function ContactPage() {
         eyebrow={hero.eyebrow}
         title={hero.title}
         body={hero.body}
-        bg="/figma/img/hero-bg.png"
+        bg="/figma/img/contact-us-bg.png"
       />
 
       <Section>

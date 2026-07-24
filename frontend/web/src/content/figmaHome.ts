@@ -251,16 +251,10 @@ export const fxCta = {
     label: "Download Product Catalogue",
     href: "/catalogue/NovoBharat.pdf",
   },
-  image: "/figma/img/cta-photo.png",
+  image: "/figma/img/start-cta.png",
 } as const;
 
-// Brand logos, cropped from the Figma export to strip its baked-in glow.
-// logoOnDark = white/cyan mark (hero header + black footer); logoOnLight =
-// navy mark (used once the header docks to a solid white bar on scroll).
-export const fxBrand = {
-  logoOnDark: "/figma/img/brand-ondark.png",
-  logoOnLight: "/figma/img/brand-onlight.png",
-} as const;
+export const BrandLogo = "/figma/img/brand-ondark.png";
 
 // Header nav — 5 items in the updated Figma (Contact Us is the button, not a link).
 export const fxNav = [

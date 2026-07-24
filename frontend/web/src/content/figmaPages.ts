@@ -107,7 +107,7 @@ export const aboutPage = {
     body: "Let’s talk — our export team responds within 24 business hours.",
     primary: { label: "Contact Us", href: "/contact" },
     secondary: { label: "Explore Our APIs", href: "/products" },
-    image: "/figma/img/cta-photo.png",
+    image: "/figma/img/start-cta.png",
   } satisfies PageCtaContent,
 } as const;
 
@@ -128,7 +128,7 @@ export const productsPage = {
       download: true,
     },
     secondary: { label: "Send Custom Requirement", href: "/contact" },
-    image: "/figma/img/cta-photo.png",
+    image: "/figma/img/start-cta.png",
   } satisfies PageCtaContent,
 } as const;
 
@@ -219,7 +219,7 @@ export const whyUsPage = {
     body: "Send your requirement today — pricing and availability within 24 hours.",
     primary: { label: "Request a Quote", href: "/contact" },
     secondary: { label: "Browse the Catalogues", href: "/products" },
-    image: "/figma/img/cta-photo.png",
+    image: "/figma/img/start-cta.png",
   } satisfies PageCtaContent,
 } as const;
 

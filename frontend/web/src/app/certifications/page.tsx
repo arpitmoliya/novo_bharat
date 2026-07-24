@@ -24,7 +24,7 @@ export default function CertificationsPage() {
         eyebrow={hero.eyebrow}
         title={hero.title}
         body={hero.body}
-        bg="/figma/img/counter-bg.png"
+        bg="/figma/img/certificate-bg.png"
       />
 
       <Section tight>

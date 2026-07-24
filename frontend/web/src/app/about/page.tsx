@@ -25,7 +25,7 @@ export default function AboutPage() {
         eyebrow={hero.eyebrow}
         title={hero.title}
         body={hero.body}
-        bg="/figma/img/counter-bg.png"
+        bg="/figma/img/about-us-bg.png"
       />
 
       {/* Story */}

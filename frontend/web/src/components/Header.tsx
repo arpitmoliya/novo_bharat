@@ -2,9 +2,10 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { fxBrand, fxNav } from "@/content/figmaHome";
+import { fxNav, BrandLogo } from "@/content/figmaHome";
 import ButtonLink from "@/components/ui/ButtonLink";
 import { cn } from "@/lib/cn";
+import Image from "next/image";
 
 function isActive(pathname: string, href: string) {
   return href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -39,7 +40,7 @@ export default function Header() {
   return (
     <header
       className={cn(
-        "fixed top-5 right-5 left-5 z-1000 mx-auto flex max-w-[1880px] items-center justify-between gap-6 rounded-[20px] border border-white/20 bg-ink p-3 pl-5 transition-shadow lg:p-[14px] lg:pl-8",
+        "fixed top-5 right-5 left-5 z-1000 mx-auto flex max-w-[1880px] items-center justify-between gap-6 rounded-[20px] border border-white/20 bg-ink/85 p-3 pl-5 transition-shadow lg:bg-ink/40 lg:p-3.5 lg:pl-8 lg:backdrop-blur-sm",
         scrolled && "shadow-[0_10px_30px_rgba(0,0,0,0.35)]",
       )}
     >
@@ -48,11 +49,12 @@ export default function Header() {
         className="inline-flex shrink-0 items-center leading-none"
         aria-label="Novo Bharat Global Export — home"
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={fxBrand.logoOnDark}
+        <Image
+          src={BrandLogo}
           alt="Novo Bharat Global Export"
           className="h-11 w-auto object-contain"
+          width={100}
+          height={100}
         />
       </a>
 
@@ -110,7 +112,7 @@ export default function Header() {
 
       <div
         className={cn(
-          "fixed inset-0 z-1100 flex flex-col bg-[#0a0f1a] px-8 pt-24 pb-10 transition-transform duration-[320ms] ease-[cubic-bezier(0.22,1,0.36,1)] lg:hidden",
+          "fixed inset-0 z-1100 flex flex-col bg-[#0a0f1a] px-8 pt-24 pb-10 transition-transform duration-320 ease-[cubic-bezier(0.22,1,0.36,1)] lg:hidden",
           open ? "translate-x-0" : "translate-x-full",
         )}
       >

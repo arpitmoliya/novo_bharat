@@ -22,7 +22,7 @@ export default function WhyUsPage() {
         eyebrow={hero.eyebrow}
         title={hero.title}
         body={hero.body}
-        bg="/figma/img/counter-bg.png"
+        bg="/figma/img/why-us-bg.png"
       />
 
       {/* Six reasons — gradient header (icon + title) over white body */}
@@ -134,7 +134,7 @@ export default function WhyUsPage() {
         </div>
       </Container>
 
-      <PageCta content={cta} variant="banner" withPhoto />
+      <PageCta content={cta} />
     </main>
   );
 }

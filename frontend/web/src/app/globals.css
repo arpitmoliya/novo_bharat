@@ -6,6 +6,15 @@
 
 @import "tailwindcss";
 
+/* Satoshi Variable — one file covers weights 300–900 */
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/Satoshi-Variable.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   /* Palette */
   --color-gold: #c9a84c;
@@ -17,10 +26,10 @@
   --color-bluepill: #d3eefd;
   --color-footerbody: #f4f3ff;
 
-  /* Type families — injected by next/font in layout.tsx */
-  --font-body:
-    var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-heading: var(--font-display), "Segoe UI", system-ui, sans-serif;
+  /* Type families */
+  --font-satoshi: "Satoshi", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: var(--font-satoshi);
+  --font-heading: var(--font-satoshi);
 
   /* Gradients */
   --background-image-gradient-soft: linear-gradient(
