@@ -4,7 +4,7 @@ import { HeroTitle, HeroHeading, Lead } from "@/components/ui/Typography";
 
 export default function Hero() {
   return (
-    <section className="relative flex min-h-[clamp(540px,50vw,960px)] flex-col justify-end overflow-hidden bg-[image:var(--gradient-hero),url('/figma/img/hero-bg.png')] bg-cover bg-center bg-no-repeat px-5 pt-[150px] pb-20 text-white">
+    <section className="relative flex min-h-[clamp(540px,50vw,960px)] flex-col justify-end overflow-hidden bg-[image:var(--gradient-hero),url('/figma/img/hero-bg.png')] bg-cover bg-center bg-no-repeat px-5 pt-37.5 pb-20 text-white">
       <div className="mx-auto flex w-[min(1720px,89.58vw)] flex-col gap-[min(48px,2.5vw)]">
         <div className="flex flex-col">
           <HeroHeading>{fxHero.headlineTop}</HeroHeading>
