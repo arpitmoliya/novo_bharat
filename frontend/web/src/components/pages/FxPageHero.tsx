@@ -10,7 +10,7 @@ export default function FxPageHero({
   eyebrow,
   title,
   body,
-  bg = "/figma/img/hero-bg.png",
+  bg = "/figma/img/hero-bg.jpg",
   primary,
   secondary,
 }: {

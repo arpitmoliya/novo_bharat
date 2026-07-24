@@ -19,9 +19,9 @@ import TwitterIcon from "@/components/icons/TwitterIcon";
 import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
 
 export const fxHero = {
-  bg: "/figma/img/hero-bg.png",
+  bg: "/figma/img/hero-bg.jpg",
   pill1: "/figma/img/hero-pill-1.png",
-  pill2: "/figma/img/hero-bg.png",
+  pill2: "/figma/img/hero-bg.jpg",
   headlineTop: "Supplying the World with India's Finest",
   headlineBottom: "Active Pharmaceutical Ingredients",
   body: "Premium bulk API exports backed by GMP-certified India's leading manufacturers — delivered to 20+ countries.",

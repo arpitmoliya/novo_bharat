@@ -16,7 +16,7 @@ export default function PageHero({
   eyebrow,
   title,
   body,
-  bg = "/figma/img/hero-bg.png",
+  bg = "/figma/img/hero-bg.jpg",
   primary,
   secondary,
 }: PageHeroProps) {
