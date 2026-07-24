@@ -150,7 +150,7 @@ export const fxWhyUs = {
   eyebrow: "Why Us",
   titleTop: "Why Importers Choose Novo",
   titleBottom: "Bharat Global Export",
-  image: "/figma/img/whyus-photo.png",
+  image: "/figma/img/whyus-photo.jpg",
   bullets: [
     "We disclose GMP certificates and audit reports.",
     "Every batch tested and verified before shipment. Retest certificates available.",
