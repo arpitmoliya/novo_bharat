@@ -75,7 +75,7 @@ export default function PolicyPage({ content }: PolicyPageProps) {
         eyebrow={hero.eyebrow}
         title={hero.title}
         body={hero.body}
-        bg="/figma/img/about-us-bg.png"
+        bg="/figma/img/policy-bg.png"
       />
 
       <Section>
