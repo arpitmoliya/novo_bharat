@@ -46,6 +46,17 @@ export default function Footer() {
               ))}
             </nav>
 
+            <nav
+              className="flex-1 flex flex-col gap-4 sm:gap-5"
+              aria-label="Policies"
+            >
+              {fxFooter.policies.map((link) => (
+                <a key={link.href} href={link.href} className={footerLinkClass}>
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+
             <div className="flex-1 flex flex-col gap-4 sm:gap-5">
               <a href={fxFooter.phoneHref} className={footerLinkClass}>
                 {fxFooter.phone}

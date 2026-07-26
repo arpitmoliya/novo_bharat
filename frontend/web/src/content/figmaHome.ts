@@ -279,6 +279,12 @@ export const fxFooter = {
     { label: "Certifications", href: "/certifications" },
     { label: "Contact Us", href: "/contact" },
   ],
+  policies: [
+    { label: "Payment Policy", href: "/payment-policy" },
+    { label: "Shipping Policy", href: "/shipping-policy" },
+    { label: "Privacy Policy", href: "/privacy-policy" },
+    { label: "Global Policy", href: "/global-policy" },
+  ],
   phone: "+91 98988 49899",
   phoneHref: "tel:+919898849899",
   email: "info@novobharat.com",
