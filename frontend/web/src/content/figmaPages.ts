@@ -124,8 +124,8 @@ export const productsPage = {
     body: "We source 200+ APIs on request. Send us your requirement — we respond within 24 hours.",
     primary: {
       label: "Download PDF Catalogue",
-      href: "/catalogue/NovoBharat.pdf",
-      download: true,
+      href: "",
+      download: false,
     },
     secondary: { label: "Send Custom Requirement", href: "/contact" },
     image: "/figma/img/start-cta.png",
